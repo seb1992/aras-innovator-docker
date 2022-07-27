@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Innovator>
+	<UI-Tailoring login_splash="../images/aras-innovator.svg" branding_img="../images/aras-innovator.svg" product_name="Aras Innovator" banner_url="../scripts/banner.aspx" banner_height="50"/>
+	<operating_parameter key="debug_log_flag" value="false"/>
+	<operating_parameter key="debug_log_limit" value="10000"/>
+	<operating_parameter key="debug_log_pretty" value="true"/>
+	<disabled_operating_parameter key="performance_logging" value="cpu"/>
+	<operating_parameter key="xslt_processor_debug" value="false"/>
+	<disabled_operating_parameter key="email_debug_option" value="file"/>
+	<!-- Paste you Innovator License Key below. Attention: It has to match the Mac Adress configured in the docker-compose.yml -->
+	<!-- You can request a license key here: https://www.aras.com/en/support/licensekeyservice -->
+	<License lic_type="Unlimited" lic_key="YOUR_LICENSE_KEY" act_key="YOUR_ACTIVATION_KEY" company=""/>
+	<Mail SMTPServer="queue"/>
+	<operating_parameter key="temp_folder" value="C:\Innovator\Innovator\Server\temp\"/>
+	<operating_parameter key="ServerMethodTempDir" value="C:\Innovator\Innovator\Server\dll\"/>
+	<operating_parameter key="debug_log_prefix" value="C:\Innovator\Innovator\Server\logs\"/>
+	<AgentService InnovatorToServiceAddress="http://localhost:8734/ArasInnovatorAgent"/>
+	<OAuthServerDiscovery>
+		<Urls>
+			<Url value="$[HTTP_PREFIX_SERVER]$[HTTP_HOST_SERVER]$[HTTP_PORT_SERVER]$[HTTP_PATH_SERVER]/OAuthServer/"/>
+		</Urls>
+	</OAuthServerDiscovery>
+	<DB-Connection id="InnovatorDb" database="InnovatorDb" server="localhost" regular_uid="innovator_regular" regular_pwd="YRQsxj*7i!NQdk" dbo_uid="innovator" dbo_pwd="YRQsxj*7i!NQdk"/>
+</Innovator>

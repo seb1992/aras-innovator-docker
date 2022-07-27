@@ -1,0 +1,14 @@
+services:
+  server:
+    image: arasinnovator
+    platform: windows
+    build:
+        context: .\Server
+        dockerfile: Dockerfile
+    container_name: arasinnovator
+    ports:
+      - 80:80
+      - 1433:1433
+    # Set your mac adress on the line below, it has to match your License Key you specify in the InnovatorServerConfig.xml
+    # You can request a license key here: https://www.aras.com/en/support/licensekeyservice
+    mac_address: 92-95-5E-30-FE-6D
