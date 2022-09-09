@@ -14,4 +14,6 @@ After that execute the following command to build and start your Aras Innovator 
 docker-compose up -d
 ```
 
+You can login to the Innovator instance using the default users "admin" or "root" with the password "innovator".
+
 You can find more information on how to run Aras Innovator in Docker on my blog: [sebastianbeilmann.com/blog/aras-innovator-in-docker](https://www.sebastianbeilmann.com/blog/aras-innovator-in-docker/)
