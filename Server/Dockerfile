@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
 
-# download the latest InnovatorSetup.zip from the Aras website and unzip InnovatorSetup.msi
-ADD "https://public.am.files.1drv.com/y4mT0Gq1VUllhbd3exFJFm__-x6U_UccV1rxXMsbWvSqpKe1WQr-zk4rFkgnfD5X_5lC9A9bxa3zXgsZJ9BRXnGqHl4lEPX8Uz4pqAZHI2ygUA2ODxhg-DiEHHhz7SOQX85--4vM52YINwRE7T5oVwfsWSMvUvc5DUbv6sP5fkoUolegWYfAsK6t3gL99FIbOwGHWM5VALHKkLVaaAk7ve8krDkzcXILPR1UTyJWFAwgqQ?AVOverride=1" "C:\Setup\InnovatorSetup.zip"
+# download the latest Aras Innovator 12 SP9 and unzip InnovatorSetup.msi
+ADD "https://www.sebastianbeilmann.com/wp-content/uploads/2023/03/InnovatorSetup_AI12_SP9.zip" "C:\Setup\InnovatorSetup.zip"
 RUN powershell -Command Expand-Archive "C:\\Setup\\InnovatorSetup.zip" -DestinationPath "C:\\Setup"
 
 # adding ASP.NET Core 2.1.8 Runtime Hosting Bundle as it is a requirement for the latest Aras version on the website (Aras 12 SP9)
