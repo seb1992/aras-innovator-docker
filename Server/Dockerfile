@@ -1,15 +1,10 @@
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2-windowsservercore-ltsc2019
 
-# download the latest InnovatorSetup.zip from the Aras website and unzip InnovatorSetup.msi
-ADD "https://www.aras.com/-/media/files/innovator/innovator-builds/innovatorsetup.ashx" "C:\Setup\InnovatorSetup.zip"
-RUN powershell -Command Expand-Archive "C:\\Setup\\InnovatorSetup.zip" -DestinationPath "C:\\Setup"
+# download the latest Aras Innovator Release 2023 InnovatorSetup.msi
+ADD "https://www.aras.com/-/media/files/Innovator/Innovator%20Builds/innovatorsetup" "C:\Setup\InnovatorSetup.msi"
 
-# adding ASP.NET Core 2.1.8 Runtime Hosting Bundle as it is a requirement for the latest Aras version on the website (Aras 12 SP9)
-ADD "https://download.visualstudio.microsoft.com/download/pr/c2b2968d-022d-4889-afd0-b02010813c94/bd315e931f55eecfdaea258cf3dee48e/dotnet-hosting-2.1.8-win.exe" "C:\Setup\dotnet-hosting.exe"
-
-# if the latest Aras version on the website changes to Aras 14, we need the ASP.NET Core 3.1.8 Runtime Hosting Bundle, so we prepare for this here
-# we then have to delete the line above and uncomment the below line for the newer Hosting Bundle version
-#ADD "https://download.visualstudio.microsoft.com/download/pr/854cbd11-4b96-4a44-9664-b95991c0c4f7/8ec4944a5bd770faba2f769e647b1e6e/dotnet-hosting-3.1.8-win.exe" "C:\Setup\dotnet-hosting.exe"
+# adding ASP.NET Core 6.0.6 Runtime Hosting Bundle as it is a requirement for the latest Aras version on the website (Aras Release 2023)
+ADD "https://download.visualstudio.microsoft.com/download/pr/0d000d1b-89a4-4593-9708-eb5177777c64/cfb3d74447ac78defb1b66fd9b3f38e0/dotnet-hosting-6.0.6-win.exe" "C:\Setup\dotnet-hosting.exe"
 
 #download SQL server installation files
 ADD "https://download.microsoft.com/download/7/c/1/7c14e92e-bdcb-4f89-b7cf-93543e7112d1/SQLServer2019-DEV-x64-ENU.box" "C:\Setup\SQLServer2019-DEV-x64-ENU.box"
@@ -31,6 +26,10 @@ RUN powershell -Command (Set-Service MSSQLSERVER -StartupType Automatic)
 
 # install clean aras
 RUN msiexec.exe /i "C:\\Setup\\InnovatorSetup.msi" /qn /norestart /log "C:\\Setup\\InnovatorSetupLog.log" INSTALLDIR="C:\\Innovator" UPGRADEORINSTALL=1 WEBALIAS="Innovator" SMTPSERVER=queue VAULTNAME=InnovatorDb VAULTFOLDER="C:\\Innovator\\Vault" DB_CREATE_NEW_OR_USE_EXISTING=0 IS_SQLSERVER_SERVER="127.0.0.1" IS_SQLSERVER_DATABASE=InnovatorDb IS_SQLSERVER_AUTHENTICATION=1 IS_SQLSERVER_USERNAME=sa IS_SQLSERVER_PASSWORD=YRQsxj*7i!NQdk SQL_SERVER_LOGIN_NAME=innovator SQL_SERVER_LOGIN_PASSWORD=YRQsxj*7i!NQdk SQL_SERVER_LOGIN_REGULAR_NAME=innovator_regular SQL_SERVER_LOGIN_REGULAR_PASSWORD=YRQsxj*7i!NQdk INSTALL_CONVERSION_SERVER=1 CONVERSION_SERVER_NAME="ConversionServer" CONVERSION_SERVER_APP_URL="http://localhost/Innovator/Server/InnovatorServer.aspx" INSTALL_AGENT_SERVICE=1 ARAS_AGENTSERVICE_TO_INNOVATORSERVER_URL="http://localhost/Innovator/Server/InnovatorServer.aspx" INNOVATOR_TO_SERVICE_ADDRESS="http://localhost:8734/ArasInnovatorAgent" AS_FOLDER="ArasInnovatorAgent"
+
+# enable redirect feature as it is required
+SHELL ["powershell", "-Command"]
+RUN Enable-WindowsOptionalFeature -Online -FeatureName IIS-HttpRedirect
 
 # copy InnovatorServerConfig.xml -> Attention: make sure that you enter a valid license key in the InnovatorServerConfig.xml
 # otherwise Aras Innovator will not work
